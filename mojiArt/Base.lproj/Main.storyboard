@@ -1,24 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HIJ-k5-ctR">
+    <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Split View Controller-->
+        <scene sceneID="5Wt-4n-nkr">
+            <objects>
+                <splitViewController allowDoubleColumnStyle="YES" id="HIJ-k5-ctR" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="detailViewController" id="a59-HH-4kF"/>
+                        <segue destination="tCV-hu-MlH" kind="relationship" relationship="masterViewController" id="ofX-FG-vHt"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="inb-4M-qQy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1164" y="-608"/>
+        </scene>
+        <!--Emoji Art Document Table View Controller-->
+        <scene sceneID="ddf-Gk-zXj">
+            <objects>
+                <tableViewController id="rVF-3s-TF8" customClass="EmojiArtDocumentTableViewController" customModule="mojiArt" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="PSf-QD-2U6">
+                        <rect key="frame" x="0.0" y="0.0" width="420" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DocumentCell" textLabel="3Qx-cK-aDp" style="IBUITableViewCellStyleDefault" id="rmP-Gp-32a">
+                                <rect key="frame" x="0.0" y="24.5" width="420" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rmP-Gp-32a" id="YZg-GR-86B">
+                                    <rect key="frame" x="100" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Qx-cK-aDp">
+                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="rVF-3s-TF8" id="mOK-hk-in4"/>
+                            <outlet property="delegate" destination="rVF-3s-TF8" id="cSr-DM-MnF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="8zv-iU-sdr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="X0J-HC-QNS">
+                            <connections>
+                                <action selector="newEmojiArt:" destination="rVF-3s-TF8" id="5e9-SR-zpX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XqE-YT-nIv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="367.96875" y="-1042.1875"/>
+        </scene>
+        <!--Emoji Art View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="EmojiArtViewController" customModule="mojiArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rhn-xn-UlS">
+                                <rect key="frame" x="0.0" y="50" width="703.5" height="718"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSF-3s-UIP" customClass="EmojiArtView" customModule="mojiArt" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="718"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="dSF-3s-UIP" secondAttribute="trailing" id="7oe-pJ-Y2X"/>
+                                    <constraint firstAttribute="bottom" secondItem="dSF-3s-UIP" secondAttribute="bottom" id="ATN-dg-iN0"/>
+                                    <constraint firstItem="dSF-3s-UIP" firstAttribute="top" secondItem="Rhn-xn-UlS" secondAttribute="top" id="KL1-Sn-u2d"/>
+                                    <constraint firstItem="dSF-3s-UIP" firstAttribute="leading" secondItem="Rhn-xn-UlS" secondAttribute="leading" id="xNw-Ba-e7a"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Rhn-xn-UlS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0gm-rz-GZF"/>
+                            <constraint firstItem="Rhn-xn-UlS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Fdc-Ei-bMi"/>
+                            <constraint firstItem="Rhn-xn-UlS" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Ldt-sf-c2I"/>
+                            <constraint firstItem="Rhn-xn-UlS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="d4b-HV-0g2"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="dropZone" destination="Rhn-xn-UlS" id="OD4-tn-HwN"/>
+                        <outlet property="emojiArtView" destination="dSF-3s-UIP" id="wuT-I8-a2Y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-357" y="-188"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="oq8-4L-Lzp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tCV-hu-MlH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="f0R-1b-YBT">
+                        <rect key="frame" x="0.0" y="0.0" width="420" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rVF-3s-TF8" kind="relationship" relationship="rootViewController" id="uLY-XX-ZXN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zTs-Ho-1c4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-356.25" y="-1042.1875"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
