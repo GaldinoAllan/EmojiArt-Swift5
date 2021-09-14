@@ -27,6 +27,17 @@ class EmojiArtDocumentTableViewController: UITableViewController {
         return cell
     }
 
+    // MARK: - Lifecycle
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if splitViewController?.preferredDisplayMode != UISplitViewController.DisplayMode.oneOverSecondary {
+            splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneOverSecondary
+        }
+    }
+
+    // MARK: - IBAction
+
     @IBAction func newEmojiArt(_ sender: UIBarButtonItem) {
         emojiArtDocuments += ["Untitled".madeUnique(withRespectTo: emojiArtDocuments)]
         tableView.reloadData()
@@ -35,6 +46,8 @@ class EmojiArtDocumentTableViewController: UITableViewController {
 //    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 //        return true
 //    }
+
+    // MARK: - Table View Delete action
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView,
