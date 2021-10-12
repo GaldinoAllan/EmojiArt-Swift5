@@ -9,6 +9,13 @@ import UIKit
 
 class EmojiArtViewController: UIViewController {
 
+    // MARK: - Model
+
+    var emojiArt: EmojiArt? {
+        get { getEmojiArt() }
+        set { setEmojiArt(withNewValue: newValue) }
+    }
+
     // MARK: - Properties
 
     var imageFetcher: ImageFetcher!
@@ -17,7 +24,11 @@ class EmojiArtViewController: UIViewController {
 
     var emojis = "😀🎁✈️🎱🍎🐶🐝🎼🚲♣️🧑🏽‍🎓✏️🌈🤡🎓👻☎️".map { String($0) }
 
+    var document: EmojiArtDocument?
+
     private var addingEmoji = false
+
+    private var emojiArtBackgroundImageURL: URL?
 
     // MARK: - IBOutlets
 
@@ -46,6 +57,7 @@ class EmojiArtViewController: UIViewController {
             emojiCollectionView.delegate = self
             emojiCollectionView.dragDelegate = self
             emojiCollectionView.dropDelegate = self
+            emojiCollectionView.dragInteractionEnabled = true
         }
     }
 
@@ -54,6 +66,65 @@ class EmojiArtViewController: UIViewController {
     @IBAction func addEmoji() {
         addingEmoji = true
         emojiCollectionView.reloadSections(IndexSet(integer: 0))
+    }
+
+    @IBAction func save(_ sender: UIBarButtonItem? = nil) {
+        document?.emojiArt = emojiArt
+        guard document?.emojiArt != nil else { return }
+        document?.updateChangeCount(.done)
+    }
+
+    @IBAction func close(_ sender: UIBarButtonItem) {
+        save()
+        if document?.emojiArt != nil {
+            document?.thumbnail = emojiArtView.snapshot
+        }
+        dismiss(animated: true) {
+            self.document?.close()
+        }
+    }
+    
+        // MARK: - Overriden methods
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        document?.open { success in
+            if success {
+                self.title = self.document?.localizedName
+                self.emojiArt = self.document?.emojiArt
+            }
+        }
+    }
+
+    // MARK: - Contents
+
+    func getEmojiArt() -> EmojiArt? {
+        guard let url = emojiArtBackgroundImage.url else { return nil }
+
+        let emojis = emojiArtView.subviews
+            .compactMap { $0 as? UILabel }
+            .compactMap { EmojiArt.EmojiInfo(label: $0) }
+        return EmojiArt(url: url, emojis: emojis)
+    }
+
+    func setEmojiArt(withNewValue newValue: EmojiArt?) {
+        emojiArtBackgroundImage = (nil, nil)
+        emojiArtView.subviews
+            .compactMap { $0 as? UILabel }
+            .forEach { $0.removeFromSuperview() }
+        if let url = newValue?.url {
+            imageFetcher = ImageFetcher(fetch: url) { (url, image) in
+                DispatchQueue.main.async {
+                    self.emojiArtBackgroundImage = (url, image)
+                    newValue?.emojis.forEach {
+                        let attributedText = $0.text.attributedString(withTextStyle: .body,
+                                                                      ofSize: CGFloat($0.size))
+                        self.emojiArtView.addLabel(with: attributedText,
+                                                   centeredAt: CGPoint(x: $0.x, y: $0.y))
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -74,7 +145,7 @@ extension EmojiArtViewController: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         imageFetcher = ImageFetcher() { (url, image) in
             DispatchQueue.main.async {
-                self.emojiArtBackgroundImage = image
+                self.emojiArtBackgroundImage = (url, image)
             }
         }
 
@@ -104,14 +175,15 @@ extension EmojiArtViewController: UIScrollViewDelegate {
         scrollViewWidth.constant = scrollView.contentSize.width
     }
 
-    var emojiArtBackgroundImage: UIImage? {
+    var emojiArtBackgroundImage: (url: URL?, image: UIImage?) {
         get {
-            emojiArtView.backgroundImage
+            return (emojiArtBackgroundImageURL, emojiArtView.backgroundImage)
         }
         set {
+            emojiArtBackgroundImageURL = newValue.url
             scrollView.zoomScale = 1.0
-            emojiArtView.backgroundImage = newValue
-            let size = newValue?.size ?? CGSize.zero
+            emojiArtView.backgroundImage = newValue.image
+            let size = newValue.image?.size ?? CGSize.zero
             emojiArtView.frame = CGRect(origin: .zero, size: size)
             scrollView?.contentSize = size
             scrollViewHeight?.constant = size.height
@@ -300,5 +372,16 @@ extension EmojiArtViewController: UICollectionViewDropDelegate {
                 }
             }
         }
+    }
+}
+
+extension EmojiArt.EmojiInfo {
+    init?(label: UILabel) {
+        guard let attributedText = label.attributedText,
+              let font = attributedText.font else { return nil}
+        x = Int(label.center.x)
+        y = Int(label.center.y)
+        text = attributedText.string
+        size = Int(font.pointSize)
     }
 }
