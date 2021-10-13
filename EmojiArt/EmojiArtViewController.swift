@@ -30,6 +30,8 @@ class EmojiArtViewController: UIViewController {
 
     private var emojiArtBackgroundImageURL: URL?
 
+    private var suppressBadURLWarnings: Bool = false
+
     // MARK: - IBOutlets
 
     @IBOutlet weak var dropZone: UIView! {
@@ -98,6 +100,12 @@ class EmojiArtViewController: UIViewController {
 
     // MARK: - Contents
 
+    func documentChanged() {
+        document?.emojiArt = emojiArt
+        guard document?.emojiArt != nil else { return }
+        document?.updateChangeCount(.done)
+    }
+
     func getEmojiArt() -> EmojiArt? {
         guard let url = emojiArtBackgroundImage.url else { return nil }
 
@@ -142,6 +150,23 @@ extension EmojiArtViewController: UIDropInteractionDelegate {
         return UIDropProposal(operation: .copy)
     }
 
+    private func presentBadURLWarning(for url: URL?) {
+        guard !suppressBadURLWarnings else { return }
+
+        let alert = UIAlertController(title: "Image Drop Failed",
+                                      message: "Couldn't transfer the dropped image from its source.\nShow this warning in the future?",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Keep Warning",
+                                      style: .default))
+        alert.addAction(UIAlertAction(title: "Stop Warning",
+                                      style: .destructive) { action in
+            self.suppressBadURLWarnings = true
+        })
+
+
+        present(alert, animated: true)
+    }
+
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         imageFetcher = ImageFetcher() { (url, image) in
             DispatchQueue.main.async {
@@ -151,7 +176,16 @@ extension EmojiArtViewController: UIDropInteractionDelegate {
 
         session.loadObjects(ofClass: NSURL.self) { nsurls in
             if let url = nsurls.first as? URL {
-                self.imageFetcher.fetch(url)
+//                self.imageFetcher.fetch(url)
+                DispatchQueue.main.async {
+                    if let imageData = try? Data(contentsOf: url.imageURL),
+                       let image = UIImage(data: imageData) {
+                        self.emojiArtBackgroundImage = (url, image)
+                        self.documentChanged()
+                    } else {
+                        self.presentBadURLWarning(for: url)
+                    }
+                }
             }
         }
 
