@@ -18,19 +18,18 @@ class EmojiArtViewController: UIViewController {
 
     // MARK: - Properties
 
-    var imageFetcher: ImageFetcher!
-
     var emojiArtView = EmojiArtView()
-
-    var emojis = "😀🎁✈️🎱🍎🐶🐝🎼🚲♣️🧑🏽‍🎓✏️🌈🤡🎓👻☎️".map { String($0) }
-
     var document: EmojiArtDocument?
 
+    var imageFetcher: ImageFetcher!
+    var emojis = "😀🎁✈️🎱🍎🐶🐝🎼🚲♣️🧑🏽‍🎓✏️🌈🤡🎓👻☎️".map { String($0) }
+
     private var addingEmoji = false
-
     private var emojiArtBackgroundImageURL: URL?
-
     private var suppressBadURLWarnings: Bool = false
+
+    private var documentObserver: NSObjectProtocol?
+    private var emojiArtViewObserver: NSObjectProtocol?
 
     // MARK: - IBOutlets
 
@@ -70,30 +69,44 @@ class EmojiArtViewController: UIViewController {
         emojiCollectionView.reloadSections(IndexSet(integer: 0))
     }
 
-    @IBAction func save(_ sender: UIBarButtonItem? = nil) {
-        document?.emojiArt = emojiArt
-        guard document?.emojiArt != nil else { return }
-        document?.updateChangeCount(.done)
-    }
-
     @IBAction func close(_ sender: UIBarButtonItem) {
-        save()
+        if let observer = emojiArtViewObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
         if document?.emojiArt != nil {
             document?.thumbnail = emojiArtView.snapshot
         }
         dismiss(animated: true) {
-            self.document?.close()
+            self.document?.close { success in
+                if let observer = self.documentObserver {
+                    NotificationCenter.default.removeObserver(observer)
+                }
+            }
         }
     }
     
-        // MARK: - Overriden methods
+    // MARK: - Overriden methods
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        documentObserver = NotificationCenter.default.addObserver(
+            forName: UIDocument.stateChangedNotification,
+            object: document,
+            queue: .main,
+            using: { notification in
+                print("documentState changed to \(self.document!.documentState)")
+            })
         document?.open { success in
             if success {
                 self.title = self.document?.localizedName
                 self.emojiArt = self.document?.emojiArt
+                self.emojiArtViewObserver = NotificationCenter.default.addObserver(
+                    forName: .EmojiArtViewDidChange,
+                    object: self.emojiArtView,
+                    queue: .main,
+                    using: { notification in
+                        self.documentChanged()
+                    })
             }
         }
     }

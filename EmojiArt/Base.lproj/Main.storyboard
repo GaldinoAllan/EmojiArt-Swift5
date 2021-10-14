@@ -27,7 +27,7 @@
         <!--Emoji Art View Controller-->
         <scene sceneID="fQo-mA-tg5">
             <objects>
-                <viewController id="vLg-Ca-4MF" customClass="EmojiArtViewController" customModule="mojiArt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vLg-Ca-4MF" customClass="EmojiArtViewController" customModule="EmojiArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Da9-Wh-hZ2">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,7 +68,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EmojiCell" id="DGi-LO-vUK" customClass="EmojiCollectionViewCell" customModule="mojiArt" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EmojiCell" id="DGi-LO-vUK" customClass="EmojiCollectionViewCell" customModule="EmojiArt" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Cu1-AP-W4D">
@@ -130,7 +130,7 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="EmojiInputCell" id="6Fq-4B-wy2" customClass="TextFieldCollectionViewCell" customModule="mojiArt" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="EmojiInputCell" id="6Fq-4B-wy2" customClass="TextFieldCollectionViewCell" customModule="EmojiArt" customModuleProvider="target">
                                         <rect key="frame" x="270" y="0.0" width="33" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="U5R-mW-Bqo">
@@ -172,11 +172,6 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="xF4-gz-cq8">
                             <connections>
                                 <action selector="close:" destination="vLg-Ca-4MF" id="aJ5-Kg-Tab"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="kFa-TK-JzU">
-                            <connections>
-                                <action selector="save:" destination="vLg-Ca-4MF" id="FPv-zh-ppk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
