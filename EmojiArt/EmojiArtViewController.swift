@@ -155,6 +155,9 @@ class EmojiArtViewController: UIViewController {
            let destination = segue.destination.contents as? DocumentInfoViewController {
             document?.thumbnail = emojiArtView.snapshot
             destination.document = document
+            if let ppc = destination.popoverPresentationController {
+                ppc.delegate = self
+            }
         }
     }
 }
@@ -217,6 +220,15 @@ extension EmojiArtViewController: UIDropInteractionDelegate {
                 self.imageFetcher.backup = image
             }
         }
+    }
+}
+
+// MARK: - UIPopoverPresentationControllerDelegate
+
+extension EmojiArtViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController,
+                                   traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
     }
 }
 

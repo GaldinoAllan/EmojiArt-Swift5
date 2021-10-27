@@ -24,16 +24,28 @@ class DocumentInfoViewController: UIViewController {
 
     // MARK: - IBOutlets
 
+    @IBOutlet weak var topLevelView: UIStackView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var createdLabel: UILabel!
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var thumbnailAspectRatio: NSLayoutConstraint!
+    @IBOutlet weak var returnToDocumentButton: UIButton!
     
     // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if presentationController is UIPopoverPresentationController {
+            guard let fittedSize = topLevelView?
+                    .sizeThatFits(UIView.layoutFittingCompressedSize) else { return }
+
+            preferredContentSize = CGSize(width: fittedSize.width, height: fittedSize.height)
+        }
     }
 
     // MARK: - IBActions
@@ -72,5 +84,11 @@ class DocumentInfoViewController: UIViewController {
                                                   multiplier: thumbnail.size.width / thumbnail.size.height,
                                                   constant: 0)
         thumbnailImageView.addConstraint(thumbnailAspectRatio)
+
+        if presentationController is UIPopoverPresentationController {
+            thumbnailImageView.isHidden = true
+            returnToDocumentButton.isHidden = true
+            view.backgroundColor = .clear
+        }
     }
 }
