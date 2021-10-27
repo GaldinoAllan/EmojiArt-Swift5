@@ -20,6 +20,7 @@
 		9D542F9927164922008D742A /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D542F9227164922008D742A /* EmojiCollectionViewCell.swift */; };
 		9D542F9A27164922008D742A /* EmojiArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D542F9327164922008D742A /* EmojiArtView.swift */; };
 		9D542F9B27164922008D742A /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D542F9427164922008D742A /* ImageFetcher.swift */; };
+		9DF8F4AF27299708005AA420 /* DocumentInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8F4AE27299708005AA420 /* DocumentInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		9D542F9227164922008D742A /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		9D542F9327164922008D742A /* EmojiArtView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtView.swift; sourceTree = "<group>"; };
 		9D542F9427164922008D742A /* ImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
+		9DF8F4AE27299708005AA420 /* DocumentInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				9D542F8F27164922008D742A /* EmojiArtViewController.swift */,
 				9D542F79271646C4008D742A /* DocumentBrowserViewController.swift */,
 				9D542F7D271646C4008D742A /* EmojiArtDocument.swift */,
+				9DF8F4AE27299708005AA420 /* DocumentInfoViewController.swift */,
 				9D542F7F271646C4008D742A /* Main.storyboard */,
 				9D542F8D271646E5008D742A /* Supporting Files */,
 				9D542F87271646C6008D742A /* Info.plist */,
@@ -167,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DF8F4AF27299708005AA420 /* DocumentInfoViewController.swift in Sources */,
 				9D542F9727164922008D742A /* TextFieldCollectionViewCell.swift in Sources */,
 				9D542F9827164922008D742A /* EmojiArt.swift in Sources */,
 				9D542F7E271646C4008D742A /* EmojiArtDocument.swift in Sources */,
